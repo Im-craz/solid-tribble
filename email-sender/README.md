@@ -1,0 +1,1 @@
+Se debe crear un archivo .env en esta ruta, alli deben estar las credenciales y contraseñas
