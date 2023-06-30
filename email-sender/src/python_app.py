@@ -3,22 +3,22 @@ from decouple import config
 import ssl
 import smtplib
 
+# Organizar el codigo, limpiarlo y realizar buenas practicas
+def send_email(to_line, subject_line, body_text):
+        
+    port = 465
+    smtp_server = "smtp.gmail.com"
+    email_sender = 'pruebasjos1@gmail.com'
+    password = config("EMAIL_PASSWORD")
 
-email_sender = 'pruebasjos1@gmail.com'
-email_receiver = 'josethnarvaez3506@gmail.com'
-subject = 'Saludo'
-body = '''
-Buena noche, un saludo si funciona!!
-'''
+    em = EmailMessage()
+    em['From'] = email_sender
+    em['To'] = to_line
+    em['subject'] = subject_line 
+    em.set_content(body_text)
 
-em = EmailMessage()
-em['From'] = email_sender
-em['To'] = email_receiver
-em['subject'] = subject
-em.set_content(body)
+    context = ssl.create_default_context()
 
-context = ssl.create_default_context()
-
-with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-    smtp.login(email_sender, config("EMAIL_PASSWORD"))
-    smtp.sendmail(email_sender, email_receiver, em.as_string())
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as smtp:
+        smtp.login(email_sender, password) 
+        smtp.sendmail(email_sender, to_line, em.as_string())
